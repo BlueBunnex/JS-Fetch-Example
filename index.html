@@ -13,8 +13,11 @@
         
             $.getJSON('db.json', function(data) {
                 $.each(data.allFruit, function(i, fruit) {
-                    let text = "<div>" + (i + 1) + ". " + fruit + "</div>";
-                    $(text).appendTo("#data");
+                    
+                    // what you append must be a single element (i.e. can't append "<div>stuff1</div> <div>stuff2</div>")
+                    let element = "<div>" + (i + 1) + ". " + fruit + "</div>";
+                    $(element).appendTo("#data");
+                    
                 });
             });
         
