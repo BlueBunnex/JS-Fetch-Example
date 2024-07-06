@@ -2,31 +2,41 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>JSON jQuery Example</title>
+    <title>JS Fetch Example</title>
     
-    <!-- include jQuery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    
-    <!-- load content -->
-    <script>
-        $(function() {
-        
-            $.getJSON('db.json', function(data) {
-                $.each(data.allFruit, function(i, fruit) {
-                    
-                    // what you append must be a single element (i.e. can't append "<div>stuff1</div> <div>stuff2</div>")
-                    let element = "<div>" + (i + 1) + ". " + fruit + "</div>";
-                    $(element).appendTo("#data");
-                    
-                });
-            });
-        
+    <script type="module">
+        //const param = new URLSearchParams(window.location.search).get('param');
+
+        ///////////////// JSON ////////////////////////////
+        fetch("db.json")
+        .then(response => {
+            if (!response.ok)
+                throw new Error("HTTP error " + response.status);
+            return response.json();
+        })
+        .then(json => {
+            const jsonInsert = document.getElementById('json');
+            
+            for (const fruit of json.allFruit) {
+                jsonInsert.innerText += `${fruit}, `;
+            }
+        })
+
+        ///////////////// PLAINTEXT ///////////////////////
+        fetch("db.json")
+        .then(file => file.text())
+        .then(text => {
+            document.getElementById('plaintext').innerText = text;
         });
     </script>
 </head>
 <body>
 
-    <div id="data"></div>
+    <h1>JSON</h1>
+    <div id="json"></div>
+
+    <h1>Plaintext</h1>
+    <div id="plaintext"></div>
 
 </body>
 </html>
